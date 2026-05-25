@@ -1,0 +1,28 @@
+public class Maquina extends Entidad {
+    private int velocidad;
+    private int cantidadDeRayos;
+
+    public Maquina (String nombre, int vidas, int nivel, int velocidad, int cantidadDeRayos) {
+        super(nombre, vidas, nivel);
+        this.velocidad = velocidad;
+        this.cantidadDeRayos = cantidadDeRayos;
+    }
+
+    public String generarRayos() {
+        System.out.println(nombre + " envía " + cantidadDeRayos + " rayos a su objetivo.");
+        return "Rayos generados por " + nombre;
+    }
+    public void aumentarDificultad() {
+        nivel++;
+        System.out.println(nombre + " ha aumentado la dificultad.");
+    }
+
+
+    @Override
+    public void acciones() {
+        System.out.println(nombre + " lanza rayos y aumenta la dificultad del nivel.");
+    }
+    public void mostrarEstado() {
+        System.out.println(nombre + " | Vidas: " + vidas + " | Nivel: " + nivel);
+    }
+}
