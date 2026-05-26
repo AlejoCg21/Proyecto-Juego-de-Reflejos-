@@ -1,0 +1,22 @@
+package JuegoFinal;
+import java.util.Random;
+
+public class Arbitro {
+
+    public boolean evaluarRespuesta(String respuesta, String correcta){
+      return respuesta.equalsIgnoreCase(correcta);
+    }
+
+    public int calcularDanio(){
+        Random random= new Random();
+        return random.nextInt(3)+1;
+
+    }
+
+    public boolean verificarDerrota(Jugador jugador){
+
+    return jugador.getVidas() <= 0;
+
+    }
+
+}
