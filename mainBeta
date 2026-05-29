@@ -1,0 +1,17 @@
+package JuegoFinal;
+
+public class Main {
+    public static void main(String[] args){
+
+        Entidad[] entidades={
+                new Jugador("Sujeto", 3),
+                new Maquina("Dride", 1, 4, 1)};
+
+        for(Entidad e: entidades ){
+            System.out.println(e.acciones());
+        }
+        Juego juego= new Juego();
+        juego.iniciarJuego();
+    }
+
+}
