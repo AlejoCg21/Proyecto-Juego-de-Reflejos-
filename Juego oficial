@@ -1,0 +1,164 @@
+package JuegoFinal;
+import java.util.Random;
+import java.util.Scanner;
+public class Juego {
+
+    //Atributos
+
+    private Jugador jugador;
+    private Maquina maquina;
+    private Arbitro arbitro;
+    private Scanner scanner;
+    private int nivel;
+
+    //constructor
+    public Juego(){
+        this.maquina= new Maquina( "Droide", 1, 4, 1);
+        this.scanner = new Scanner(System.in);
+        this.arbitro= new Arbitro();
+        this.nivel = 1;
+
+    }
+    //Acciones que tomara el juego
+    public void iniciarJuego(){
+        mostrarMenu();
+        String opcion=  scanner.nextLine();
+
+        while(!opcion.equalsIgnoreCase("iniciar") && !opcion.equalsIgnoreCase("salir")){
+            mostrarMenu();
+            opcion = scanner.nextLine();
+        }
+        if(opcion.equalsIgnoreCase("iniciar")){
+              iniciarPartida();
+
+        }else{
+            System.out.println("Nos volveremos a ver...");
+        }
+    }
+
+    public void mostrarMenu(){
+        System.out.println("    ---------------------------------------------------------         ");
+        System.out.println("    |             !Bienvenido querid@ Muchach@!             |         ");
+        System.out.println("    |En estos momentos estas apunto de entrar al camino Jedi|         ");
+        System.out.println("    |             Tienes las siguientes opciones            |         ");
+        System.out.println("    ---------------------------------------------------------         ");
+        System.out.println("|--------------------------------------------------------------------|");
+        System.out.println("|[Volverme un Maestro Jedi]                      [No volverme un Jedi|");
+        System.out.println("|--------------------------------------------------------------------|");
+        System.out.println("|--------------------------------------------------------------------|");
+        System.out.println("|                            Ingresa                                 |");
+        System.out.println("|                      [iniciar] o [salir]                           |");
+        System.out.println("|--------------------------------------------------------------------|");
+    }
+    public void iniciarPartida(){
+            System.out.println("-------------------Ingresa tu nombre Jedi:-------------------------");
+            String nombreJ = scanner.nextLine();
+             //Calculos internos
+        Random random = new Random();
+        int setVidas= random.nextInt(5) + 1;
+        int perderVida= random.nextInt(3) + 1;
+
+              this.jugador=new Jugador(nombreJ, setVidas);
+              this.jugador.setDanioporError(perderVida);
+
+        System.out.println("                    --------------------------------                 ");
+        System.out.println("                    |      Colocate el casco...    |                 ");
+        System.out.println("                    | !!!Y demuestra quien eres!!! |                 ");
+        System.out.println("                    --------------------------------                  ");
+        System.out.println("|--------------------------------------------------------------------|");
+        jugador.mostrarEstado();
+        System.out.println("Perderas: ["+jugador.getDanioporError()+"] vidas por error");
+        while(!arbitro.verificarDerrota(jugador)&& jugador.getBloqueos()<15){
+            ejecutarRonda();
+        }
+        if(arbitro.verificarDerrota(jugador)){
+            mostrarDerrota();
+
+        }else{
+            mostrarVictoria();
+
+        }
+    }
+    public void ejecutarRonda(){
+    String[] posiciones= {"SUR", "NORTE", "ESTE", "OESTE"};
+        Random random= new Random();
+
+
+        int aleaPosiciones= random.nextInt(4);
+        int aleaPosiciones2= random.nextInt(4);
+        System.out.println("                    ------------------------------                   ");
+        System.out.println("                    | Bloquea esta Posicion/es!!!|                   ");
+        System.out.println("                    ------------------------------                   ");
+        System.out.println("Tienes " + maquina.getVelocidad() + " segundos para bloquear!");
+
+        try {
+        Thread.sleep(maquina.getVelocidad() * 1000L);
+        } catch (InterruptedException e) {
+        System.out.println("Error de pausa");
+        }
+
+        while(aleaPosiciones2==aleaPosiciones){
+            aleaPosiciones2= random.nextInt(4);
+        }
+
+        if(maquina.getCantidadDeRayos()==1){
+            System.out.println("                                ["+posiciones[aleaPosiciones]+"]                 ");
+            String posicion= scanner.nextLine();
+            if(arbitro.evaluarRespuesta(posicion, posiciones[aleaPosiciones])){
+                jugador.agregarBloqueo();
+
+            }else{
+            jugador.perderVida(jugador.getDanioporError());
+            System.out.println("---------------------------");
+            System.out.println("Acabas de perder ["+ jugador.getDanioporError()+"] vidas");
+            System.out.println("---------------------------");
+        }
+
+        }
+        if(maquina.getCantidadDeRayos()==2){
+            System.out.println("                              ["+posiciones[aleaPosiciones]+"]/["+posiciones[aleaPosiciones2]+"]");
+            String posicion1= scanner.nextLine();
+            String posicion2= scanner.nextLine();
+            if(arbitro.evaluarRespuesta(posicion1, posiciones[aleaPosiciones]) && arbitro.evaluarRespuesta(posicion2, posiciones[aleaPosiciones2])){
+                jugador.agregarBloqueo();
+            }else{
+                jugador.perderVida(jugador.getDanioporError());
+            }
+
+        }
+        verificarDificultad();
+        jugador.mostrarEstado();
+
+    }
+    public void verificarDificultad(){
+     if(jugador.getBloqueos()==5){
+       aumentarDificultad();
+     }
+     else if(jugador.getBloqueos()==10){
+         aumentarDificultad();
+     }
+     else if(jugador.getBloqueos()==15){
+         mostrarVictoria();
+     }
+    }
+
+    public void aumentarDificultad(){
+      if(nivel==1){
+          maquina.setVelocidad(3);
+          maquina.setCantidadDeRayos(2);
+          nivel++;
+      }
+      else if(nivel==2){
+          maquina.setVelocidad(2);
+          nivel++;
+      }
+    }
+    public void mostrarVictoria(){
+        System.out.println("!!!Enhorabuena ["+jugador.getNombre()+ "] te haz vuelto un maestro jedi!!!" );
+    }
+    public void mostrarDerrota(){
+         System.out.println("["+jugador.getNombre() + "] Tu camino jedi ha terminado aqui...");
+        System.out.println();
+        System.out.println();
+    }
+}
