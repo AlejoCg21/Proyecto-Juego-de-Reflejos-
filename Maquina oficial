@@ -1,0 +1,36 @@
+package JuegoFinal;
+public class Maquina extends Entidad {
+
+    //Atributos
+    private int velocidad;
+    private int cantidadDeRayos;
+
+     //Constructor-hija
+
+    public Maquina (String nombre, int vidas, int velocidad, int cantidadDeRayos) {
+        super(nombre, vidas);
+        this.velocidad = velocidad;
+        this.cantidadDeRayos = cantidadDeRayos;
+    }
+    public int getVelocidad(){
+        return velocidad;
+    }
+    public void setVelocidad(int velocidad) {
+        this.velocidad = velocidad;
+
+    }
+
+    public int getCantidadDeRayos(){
+        return cantidadDeRayos;
+    }
+    public void setCantidadDeRayos(int cantidadDeRayos){
+        this.cantidadDeRayos = cantidadDeRayos;
+    }
+
+
+    @Override
+    public String acciones() {
+        return nombre + " lanza rayos.";
+    }
+
+}
