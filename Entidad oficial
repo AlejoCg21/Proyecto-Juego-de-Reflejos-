@@ -1,0 +1,37 @@
+package JuegoFinal;
+public class Entidad {
+    //Atributos
+    protected String nombre;
+    protected int vidas;
+
+    //Constructor
+    public Entidad(String nombre, int vidas) {
+      this.nombre= nombre;
+      this.vidas= vidas;
+    }
+
+    //Getters y setters
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getVidas() {
+        return vidas;
+    }
+    public void setVidas(int vidas) {
+        this.vidas = vidas;
+    }
+
+    //Métodos
+    public String acciones() {
+       return "La entidad " + nombre + " realiza una acción";
+    }
+
+    public void mostrarEstado() {
+        System.out.println(nombre + " tiene " + vidas );
+    }
+
+}
