@@ -1,0 +1,49 @@
+package JuegoFinal;
+
+public class Jugador extends Entidad{
+
+    private int bloqueos;
+    private int danioporError;
+
+    //Metodo constructor - clase hija
+    public Jugador(String nombre, int vidas) {
+        super(nombre, vidas);
+        this.bloqueos = 0;
+        this.danioporError=0;
+    }
+
+    //Getter
+    public int getBloqueos() {
+        return bloqueos;
+    }
+
+    public void agregarBloqueo(){
+        this.bloqueos++;
+
+    }
+    public void perderVida(int danioporError) {
+        vidas -= danioporError;
+        if(vidas <= 0) {
+            vidas = 0;
+        }
+    }
+    public int getDanioporError(){
+      return danioporError;
+    }
+
+    public void setDanioporError(int danioporError){
+      this.danioporError= danioporError;
+    }
+
+    @Override
+    public String acciones() {
+        return (nombre + " bloqueó el rayo");
+    }
+    public void mostrarEstado() {
+        System.out.println("------------------------------------------------");
+        System.out.println("/"+nombre + " || Vidas: " + vidas  + " || Bloqueos exitosos: " + bloqueos+"/");
+        System.out.println("------------------------------------------------");
+    }
+
+
+}
